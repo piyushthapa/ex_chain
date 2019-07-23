@@ -1,4 +1,4 @@
-tdefmodule ExChain.Blockchain do
+defmodule ExChain.Blockchain do
   alias ExChain.Blockchain.Block
 
   def genesis_block(), do: Block.genesis()
@@ -33,11 +33,31 @@ tdefmodule ExChain.Blockchain do
       previous_block.hash != Block.get_hash(previous_block) ->
         false
 
+      current_block.hash != Block.get_hash(current_block) ->
+        false
+
       String.slice(sha_operation, 0, 4) != "0000" ->
         false
 
       true ->
         is_chain_valid(rest_block, true)
+    end
+  end
+
+  def replace_chain(current_chain, incoming_chain) when is_list(current_chain) and is_list(incoming_chain) do
+    cond do
+      List.first(incoming_chain) != Block.genesis() ->
+        current_chain
+
+      length(incoming_chain) <= current_chain ->
+        current_chain
+
+      is_chain_valid(incoming_chain) == false ->
+        current_chain
+
+      true ->
+        incoming_chain
+
     end
   end
 

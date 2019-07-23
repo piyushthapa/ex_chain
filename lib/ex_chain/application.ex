@@ -11,7 +11,8 @@ defmodule ExChain.Application do
       # Start the Ecto repository
       ExChain.Repo,
       # Start the endpoint when the application starts
-      ExChainWeb.Endpoint
+      ExChainWeb.Endpoint,
+      ExChain.Blockchain.Worker
       # Starts a worker by calling: ExChain.Worker.start_link(arg)
       # {ExChain.Worker, arg},
     ]
